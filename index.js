@@ -2,19 +2,11 @@ const express = require('express')
 const app = express()
 
 app.get('/', (req, res) => {
-    res.send('Hello Express Js.')
+    res.status(200).end('Hello Express JS')
 })
 
-app.post('/about', (req, res) => {
-    res.send('About page')
-})
-
-app.put('/contact', (req, res) => {
-    res.send('Contact page')
-})
-
-app.delete('/services', (req, res) => {
-    res.send('Services page')
+app.get('/status', (req, res) => {
+    res.status(401).end('Hello Express JS')
 })
 
 
