@@ -1,14 +1,25 @@
 const express = require('express')
 const multer = require('multer');
-var multer = multer()
 const app = express()
 
 
 
 
 app.use(express.json())
-app.use(multer.array())
-app.use(express.static('public'));
+// app.use(multer.array())
+// app.use(express.static('public'));
+
+// application laval middleware 
+// app.use('/', (req, res, next) => {
+//     console.log("This is application laval middleware")
+//     next()
+// })
+
+// single route middleware 
+app.use('/json', (req, res, next) => {
+    console.log("This is single route middleware")
+    next()
+})
 
 app.get('/', (req, res) => {
     res.status(200).end('Hello Express JS')
@@ -110,10 +121,37 @@ app.post('/postBlog', (req, res) => {
 
 
 // Access multipart form data
-app.post('/formData', (req, res) => {
-    let blog = req.body;
-    res.send(JSON.stringify(blog))
-})
+// app.post('/formData', (req, res) => {
+//     let blog = req.body;
+//     res.send(JSON.stringify(blog))
+// })
+
+
+// file or Data upload storage
+var storage = multer.diskStorage({
+    destination: function (req, file, callBack) {
+        callBack(null, './files');
+    },
+    filename: function (req, file, callBack) {
+        callBack(null, file.originalname)
+    }
+});
+
+var upload = multer({ storage: storage }).single('myfile')
+
+
+app.post('/uploadFile', (req, res) => {
+    upload(req, res, (err) => {
+        if (err) {
+            return res.send("File upload failed")
+        } else {
+            res.send("File uploaded successful.")
+        }
+    });
+});
+
+
+
 
 
 
