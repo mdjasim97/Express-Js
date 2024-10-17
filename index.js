@@ -57,6 +57,30 @@ app.get('/header', (req, res) => {
 })
 
 
+// set Cookies Response 
+app.get('/cookie', (req, res) => {
+    res.cookie('Name', "Md Jasim Uddin")
+    res.cookie('Age', "22 Years Old")
+    res.cookie('City', "Rajshahi")
+    res.send("Hello Cookies")
+})
+
+// clear Cookies Response 
+app.get('/clearCookie', (req, res) => {
+    res.clearCookie('Name')
+    res.clearCookie('Age')
+    res.clearCookie('City')
+    res.send("Hello Clear Cookies")
+})
+
+// Query Search Response 
+app.get('/search', (req, res) => {
+    let useName = req.query.name;
+    const useAge = req.query.age;
+    res.end("Hello " + useName + ", age: " + useAge);
+})
+
+
 app.listen(5000, () => {
     console.log('Server running port is 5000')
 })
