@@ -1,5 +1,14 @@
 const express = require('express')
+const multer = require('multer');
+var multer = multer()
 const app = express()
+
+
+
+
+app.use(express.json())
+app.use(multer.array())
+app.use(express.static('public'));
 
 app.get('/', (req, res) => {
     res.status(200).end('Hello Express JS')
@@ -65,6 +74,7 @@ app.get('/cookie', (req, res) => {
     res.send("Hello Cookies")
 })
 
+
 // clear Cookies Response 
 app.get('/clearCookie', (req, res) => {
     res.clearCookie('Name')
@@ -73,12 +83,38 @@ app.get('/clearCookie', (req, res) => {
     res.send("Hello Clear Cookies")
 })
 
+
 // Query Search Response 
 app.get('/search', (req, res) => {
     let useName = req.query.name;
     const useAge = req.query.age;
     res.end("Hello " + useName + ", age: " + useAge);
 })
+
+
+// get header data from header property 
+app.get('/getHeader', (req, res) => {
+    let userName = req.header('Name');
+    const userAge = req.header('Age');
+    res.send("Get Header Data. Congratulation " + userName + ", age: " + userAge);
+})
+
+// get json data from Post Request 
+app.post('/postBlog', (req, res) => {
+    let blog = req.body;
+    // console.log(blog)
+    let title = blog['Title']
+    let descriptions = blog['Descrip']
+    res.send("Blog Name : " + title + " \n Descriptions : " + descriptions)
+})
+
+
+// Access multipart form data
+app.post('/formData', (req, res) => {
+    let blog = req.body;
+    res.send(JSON.stringify(blog))
+})
+
 
 
 app.listen(5000, () => {
